@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Register cluster hosts
+      import_tasks: roles/common/add_hosts.yml
+- hosts: cluster:gatewayed
+  roles:
+    - common
+  tasks:
+    - name: Register nodes in hosts file
+      lineinfile:
+        dest: /etc/hosts
+        line: "{{ item.ip }}	{{ item.hostnames }}"
+        state: present
+      become: true
+      with_items:
+        - { ip: '192.168.50.1', hostnames: "{{ cluster_head_node }} {{ cluster_head_node}}.local {{ cluster_head_node }}.lan {{ cluster_head_node }}.cluster" }
+        - { ip: '192.168.50.2', hostnames: "{{ cluster_node_2 }} {{ cluster_node_2 }}.local {{ cluster_node_2 }}.lan {{ cluster_node_2 }}.cluster" }
+        - { ip: '192.168.50.3', hostnames: "{{ cluster_node_3 }} {{ cluster_node_3 }}.local {{ cluster_node_3 }}.lan {{ cluster_node_3 }}.cluster" }
+        - { ip: '192.168.50.4', hostnames: "{{ cluster_node_4 }} {{ cluster_node_4 }}.local {{ cluster_node_4 }}.lan {{ cluster_node_4 }}.cluster" }
+
+    - name: Group membership
+      user:
+        name: {{ cluster_user }}
+        groups: {{ cluster_user }}
+        append: yes
+      become: true
+
+    - name: Upgrade system packages
+      apt:
+        update_cache: yes
+        upgrade: safe
+      become: true
+      tags:
+          package-upgrade
+
+    - name: Install common packages
+      apt:
+        name: ['vim', 'htop']
+        state: present
+      become: true
+
+- import_playbook: roles/common/reboot.yml

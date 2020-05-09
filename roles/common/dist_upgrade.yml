@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Register cluster hosts
+      import_tasks: add_hosts.yml
+- hosts: cluster:gatewayed
+  tasks:
+  - name: Perform dist-upgrade
+    apt:
+      update_cache: yes
+      upgrade: full
+    become: true
+
+- import_playbook: reboot.yml

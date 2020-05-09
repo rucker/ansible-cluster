@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Register cluster hosts
+      import_tasks: add_hosts.yml
+- hosts: cluster
+  tasks:
+    - name: ssh into cluster head node
+      command: whoami
+      register: out
+
+    - debug: var=out.stdout_lines

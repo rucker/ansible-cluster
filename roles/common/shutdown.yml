@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Register cluster hosts
+      import_tasks: add_hosts.yml
+- hosts: gatewayed:cluster
+  serial: 1
+  tasks:
+    - name: Shut down cluster
+      shell: echo "Remote shutdown initiated"
+      notify:
+        - Shut down node
+  handlers:
+    - name: Shut down node
+      shell: shutdown -h -t now "Shutdown triggered by Ansible"
+      async: 1
+      poll: 0
+      ignore_errors: true
+      become: true
