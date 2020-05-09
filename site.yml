@@ -21,8 +21,8 @@
 
     - name: Group membership
       user:
-        name: {{ cluster_user }}
-        groups: {{ cluster_user }}
+        name: "{{ cluster_user }}"
+        groups: "{{ cluster_user }}"
         append: yes
       become: true
 
