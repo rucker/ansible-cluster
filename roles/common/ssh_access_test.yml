@@ -3,7 +3,7 @@
   tasks:
     - name: Register cluster hosts
       import_tasks: add_hosts.yml
-- hosts: cluster
+- hosts: cluster:gatewayed
   tasks:
     - name: ssh into cluster head node
       command: whoami
