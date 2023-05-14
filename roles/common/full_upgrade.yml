@@ -5,7 +5,7 @@
       import_tasks: add_hosts.yml
 - hosts: cluster:gatewayed
   tasks:
-  - name: Perform dist-upgrade
+  - name: Perform full upgrade
     apt:
       update_cache: yes
       upgrade: full
