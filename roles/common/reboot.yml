@@ -3,10 +3,13 @@
   tasks:
     - name: Register cluster hosts
       import_tasks: add_hosts.yml
-      when: "cluster_head_node not in groups['cluster']"
-- hosts: gatewayed:cluster
-  serial: 1
+- hosts: gatewayed
   tasks:
-  - name: Reboot cluster
+  - name: Reboot gatewayed nodes
+    reboot:
+    become: true
+- hosts: cluster
+  tasks:
+  - name: Reboot head node
     reboot:
     become: true
