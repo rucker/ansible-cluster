@@ -1,0 +1,19 @@
+- name: Add head node host
+  add_host:
+    name: "{{ cluster_head_node }}"
+    groups: cluster
+- name: Add cluster node 2 host 
+  add_host:
+    name: "{{ cluster_node_2 }}"
+    groups: gatewayed
+    ansible_host: 192.168.50.2
+- name: Add cluster node 3 host
+  add_host:
+    name: "{{ cluster_node_3 }}"
+    groups: gatewayed
+    ansible_host: 192.168.50.3
+- name: Add cluster node 4 host
+  add_host:
+    name: "{{ cluster_node_4 }}"
+    groups: gatewayed
+    ansible_host: 192.168.50.4

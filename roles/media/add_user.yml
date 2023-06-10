@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Register cluster hosts
+      import_tasks: add_hosts.yml
+- hosts: cluster
+  tasks:
+    - name: Provision media user
+      user:
+        name: "{{ cluster_media_user }}"
+        groups: [ 'media', 'docker' ]
+        append: yes
+        system: yes
+        create_home: no
+      become: true

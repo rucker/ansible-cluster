@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Register cluster hosts
+    import_tasks: add_hosts.yml
+- hosts: cluster
+  tasks:
+  - name: Pull Sonarr Docker image
+    docker_image:
+      name: lscr.io/linuxserver/sonarr:arm32v7-3.0.9
+      source: pull
+  - name: Pull Radarr Docker image
+    docker_image:
+      name: lscr.io/linuxserver/radarr:latest
+      source: pull
+  - name: Pull SABnzbd Docker image
+    docker_image:
+      name: lscr.io/linuxserver/sabnzbd:4.0.1-ls107
+      source: pull
+  - name: Pull Transmission Docker image
+    docker_image:
+      name: lscr.io/linuxserver/transmission:latest
+      source: pull

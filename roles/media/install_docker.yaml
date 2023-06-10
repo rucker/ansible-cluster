@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Register cluster hosts
+      import_tasks: add_hosts.yml
+  tags:
+    - all
+- hosts: cluster
+  tasks:
+    - name: Install Docker, Docker Compose Apt packages
+      apt:
+         update_cache: yes
+         # libssl-dev is needed to build Python cryptography
+         # extension, a dependency of the Python docker-compose module.
+         name: ['docker.io', 'docker-compose-plugin', 'libssl-dev']
+      become: true
+    - name: Check for Rust installation
+      shell: test -f $HOME/.cargo/env && source $HOME/.cargo/env && command -v cargo
+      args:
+        executable: bash
+      register: cargo_exists
+      ignore_errors: true
+      tags:
+        - rust
+    - name: Fetch Rust install script
+      when: cargo_exists is failed
+      get_url:
+        url: https://sh.rustup.rs
+        dest: /tmp/sh.rustup.rs
+        mode: '0755'
+        force: 'yes'
+      tags:
+        - rust
+    - name: Install Rust/Cargo
+      when: cargo_exists is failed
+      shell: /tmp/sh.rustup.rs -y
+      tags:
+        - rust
+    - name: Install Python dependencies
+      shell: source $HOME/.cargo/env && pip3 install docker docker-compose
+      args:
+        executable: /bin/bash
