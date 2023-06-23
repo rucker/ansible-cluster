@@ -6,9 +6,9 @@ services:
     ports:
       - "8080:8080"
     volumes:
-        - "/var/sabnzbd:/config"
-        - "/media/epoch/Downloads/complete:/downloads"
-        - "/media/epoch/Downloads/incomplete:/incomplete-downloads"
+      - "/var/sabnzbd:/config"
+      - "/media/epoch/Downloads/complete:/downloads"
+      - "/media/epoch/Downloads/incomplete:/incomplete-downloads"
     environment:
       TZ: America/New_York
       PUID: 999
@@ -25,8 +25,8 @@ services:
       - "51413:51413/udp"
       - "56181:56181"
     volumes:
-        - "/var/lib/transmission-daemon:/config"
-        - "/media/epoch/Downloads:/downloads"
+      - "/var/lib/transmission-daemon:/config"
+      - "/media/epoch/Downloads:/downloads"
     environment:
       TZ: America/New_York
       PUID: 999
@@ -40,9 +40,9 @@ services:
     ports:
       - "8989:8989"
     volumes:
-        - "/var/lib/sonarr:/config"
-        - "/media/epoch/Downloads/complete:/downloads"
-        - "/media/epoch/Videos/TV Shows:/tv"
+      - "/var/lib/sonarr:/config"
+      - "/media/epoch/Downloads/complete:/downloads"
+      - "/media/epoch/Videos/TV Shows:/tv"
     environment:
       TZ: America/New_York
       PUID: 999
@@ -56,9 +56,9 @@ services:
     ports:
       - "7878:7878"
     volumes:
-        - "/var/lib/radarr:/config"
-        - "/media/epoch/Downloads/complete:/downloads"
-        - "/media/epoch/Videos/Movies:/movies"
+      - "/var/lib/radarr:/config"
+      - "/media/epoch/Downloads/complete:/downloads"
+      - "/media/epoch/Videos/Movies:/movies"
     environment:
       TZ: America/New_York
       PUID: 999
