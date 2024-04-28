@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Register cluster hosts
+    import_tasks: add_hosts.yml
+- hosts: cluster
+  tasks:
+  - name: Copy Docker Compose file
+    copy:
+      src: docker-compose.yml
+      dest: /tmp/
+  - name: Docker Compose down
+    community.docker.docker_compose_v2:
+      project_src: /tmp/
+      project_name: media
+      state: absent
